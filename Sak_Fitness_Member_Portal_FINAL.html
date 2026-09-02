@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Sak Fitness — Member Portal</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{--bg:#070809;--card:#111318;--line:#292e35;--muted:#969ca4;--lime:#c9ff3b;--danger:#ff6b52}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:#f5f6f3;font-family:Arial,Helvetica,sans-serif}button,input,select{font:inherit}button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}.wrap{width:min(920px,92%);margin:auto}
+nav{height:70px;border-bottom:1px solid var(--line);background:#090a0b;display:flex;align-items:center;position:sticky;top:0;z-index:20}.nav{display:flex;justify-content:space-between;align-items:center;gap:12px}.logo{font-size:1.05rem;font-weight:950;letter-spacing:-.06em}.logo span{color:var(--lime)}.actions{display:flex;gap:7px}.btn{min-height:44px;border:1px solid var(--line);background:#101216;color:#fff;border-radius:8px;padding:10px 14px;font-size:.72rem;font-weight:950}.btn.primary{background:var(--lime);border-color:var(--lime);color:#070809}.btn.danger{color:#ff8775}
+.hero{padding:70px 0 55px}.tag{color:var(--lime);font-size:.68rem;font-weight:950;letter-spacing:.18em}.hero h1{font-size:clamp(3.8rem,11vw,8rem);line-height:.8;letter-spacing:-.1em;margin:12px 0 22px}.hero h1 span{color:var(--lime)}.hero p{color:var(--muted);max-width:600px;line-height:1.6}.hero-actions{display:flex;gap:9px;margin-top:25px;flex-wrap:wrap}
+.panel{display:none;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;margin-bottom:35px}.panel.show{display:block}.grid{display:grid;grid-template-columns:1fr 1.35fr;gap:14px}.card{background:#0b0d10;border:1px solid var(--line);border-radius:12px;padding:20px}.avatar{width:58px;height:58px;border-radius:50%;background:var(--lime);color:#080a0b;display:flex;align-items:center;justify-content:center;font-weight:950;font-size:1.3rem;margin-bottom:13px}.name{font-size:1.5rem;font-weight:950}.meta{font-size:.75rem;color:var(--muted);line-height:1.6;margin-top:4px}.kicker{font-size:.64rem;color:var(--lime);font-weight:950;letter-spacing:.16em}.rows{margin-top:10px}.row{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:.78rem}.row:last-child{border-bottom:0}.row span{color:#7e848c}.qr{margin-top:16px;background:#fff;color:#090a0b;border-radius:12px;padding:16px;text-align:center}.qr h4{margin:0;font-size:.9rem}.qrbox{width:180px;height:180px;margin:12px auto;display:flex;align-items:center;justify-content:center}.qrid{font-weight:950;letter-spacing:.1em}.qr small{color:#555;display:block;margin-top:4px}.account-actions{display:flex;gap:7px;margin-top:15px}.note{text-align:center;color:#686e75;font-size:.68rem;margin:30px 0 60px}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(8px);z-index:100;align-items:center;justify-content:center;padding:20px}.modal.show{display:flex}.modalbox{width:min(500px,100%);max-height:92vh;overflow:auto;background:#121419;border:1px solid #343941;border-radius:16px;padding:26px;box-shadow:0 25px 80px #000}.modalhead{display:flex;justify-content:space-between;align-items:start;margin-bottom:18px}.modalhead h2{font-size:2.5rem;line-height:.82;letter-spacing:-.08em;margin:7px 0}.close{border:1px solid var(--line);background:#0c0e10;color:#aaa;border-radius:8px;min-width:44px;min-height:44px}.form{display:grid;gap:11px}.form label{font-size:.7rem;color:#bfc3c8;font-weight:900}.form input,.form select{display:block;width:100%;margin-top:5px;min-height:47px;background:#080a0c;color:#fff;border:1px solid var(--line);border-radius:8px;padding:11px;outline:none;font-size:16px}.form input:focus,.form select:focus{border-color:var(--lime)}.submit{width:100%;min-height:50px;border:0;border-radius:8px;background:var(--lime);color:#080a0b;font-weight:950}.switch{text-align:center;color:#777e85;font-size:.74rem;margin-top:13px}.switch button{border:0;background:none;color:var(--lime);font-weight:950}.total{background:#090b0d;border:1px solid var(--line);border-radius:9px;padding:13px;display:flex;justify-content:space-between;align-items:center}.total strong{font-size:1.3rem;color:var(--lime)}.total small{display:block;color:#777;margin-top:2px}.error{display:none;background:#25100c;border:1px solid #6c2e23;color:#ff9a89;border-radius:8px;padding:10px;font-size:.74rem}.toast{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--lime);color:#080a0b;padding:13px 17px;border-radius:9px;font-weight:950;z-index:200;font-size:.78rem}
+@media(max-width:700px){.wrap{width:94%}.hero{padding:52px 0 38px}.hero h1{font-size:clamp(3.4rem,17vw,5.5rem)}.hero-actions{display:grid;grid-template-columns:1fr}.hero-actions .btn{width:100%}.grid{grid-template-columns:1fr}.panel{padding:16px}.modal{align-items:flex-end;padding:8px}.modalbox{border-radius:18px 18px 0 0;padding:20px 17px;max-height:95vh;padding-bottom:calc(20px + env(safe-area-inset-bottom))}.modalhead h2{font-size:2.1rem}.actions .btn{padding:9px 10px;font-size:.65rem}.logo{font-size:.95rem}}
+@media(max-width:370px){.actions .btn{padding:8px}.actions{gap:4px}}
+</style>
+</head>
+<body>
+<nav><div class="wrap nav"><div class="logo">SAK <span>FITNESS</span></div><div class="actions"><button class="btn" onclick="openLogin()">LOG IN</button><button class="btn primary" onclick="openRegister()">REGISTER</button></div></div></nav>
+
+<main class="wrap">
+<section class="hero">
+<div class="tag">MEMBER PORTAL</div>
+<h1>YOUR<br>FITNESS.<br><span>YOUR ACCOUNT.</span></h1>
+<p>Create your demo membership account, receive your Member ID and digital QR code, then use the account dashboard whenever you return.</p>
+<div class="hero-actions"><button class="btn primary" onclick="openRegister()">CREATE ACCOUNT →</button><button class="btn" onclick="openLogin()">ALREADY A CUSTOMER? LOG IN</button></div>
+</section>
+
+<section id="account" class="panel">
+<div class="grid">
+<div class="card"><div class="kicker">MY ACCOUNT</div><div class="avatar" id="avatar">SF</div><div class="name" id="accountName"></div><div class="meta" id="accountContact"></div><div class="account-actions"><button class="btn" onclick="openEdit()">EDIT PROFILE</button><button class="btn danger" onclick="logout()">LOG OUT</button></div></div>
+<div class="card"><div class="kicker">MEMBERSHIP</div><div class="rows">
+<div class="row"><span>Member ID</span><b id="aId"></b></div><div class="row"><span>Plan</span><b id="aPlan"></b></div><div class="row"><span>Status</span><b id="aStatus" style="color:var(--lime)"></b></div><div class="row"><span>Start date</span><b id="aStart"></b></div><div class="row"><span>Expiry date</span><b id="aExpiry"></b></div><div class="row"><span>Total paid</span><b id="aPaid"></b></div><div class="row"><span>Account created</span><b id="aCreated"></b></div></div></div>
+</div>
+<div class="qr"><h4>DIGITAL MEMBERSHIP CARD</h4><div class="qrbox" id="qrBox"></div><div class="qrid" id="qrId"></div><small>Show this QR to Sak Fitness staff for verification.</small></div>
+</section>
+
+<p class="note">DEMO SYSTEM — registrations are stored in this browser only. No real payment is processed.</p>
+</main>
+
+<div class="modal" id="registerModal"><div class="modalbox"><div class="modalhead"><div><div class="tag">NEW MEMBER</div><h2>CREATE<br>ACCOUNT.</h2></div><button class="close" onclick="closeModals()">✕</button></div>
+<form class="form" onsubmit="register(event)">
+<label>FULL NAME<input id="rName" required placeholder="Your full name"></label>
+<label>PHONE NUMBER<input id="rPhone" required inputmode="tel" placeholder="Phone number"></label>
+<label>EMAIL<input id="rEmail" type="email" placeholder="Email address"></label>
+<label>MEMBERSHIP<select id="rPlan" required onchange="updateTotal()"><option value="">Choose membership</option><option value="Basic">Basic — ₹999/month</option><option value="Pro">Pro — ₹1,499/month</option><option value="Elite">Elite — ₹2,499/month</option></select></label>
+<label>DURATION<select id="rDuration" required onchange="updateTotal()"><option value="1">1 Month</option><option value="3">3 Months</option><option value="6">6 Months</option><option value="12">12 Months</option></select></label>
+<label>START DATE<input id="rStart" type="date" required onchange="updateTotal()"></label>
+<div class="total"><div><b>Membership total</b><small id="dateInfo">Choose a plan.</small></div><strong id="rTotal">₹0</strong></div>
+<button class="submit">CREATE MEMBERSHIP →</button>
+</form><div class="switch">Already a customer? <button onclick="openLogin()">Log in</button></div>
+</div></div>
+
+<div class="modal" id="loginModal"><div class="modalbox"><div class="modalhead"><div><div class="tag">RETURNING MEMBER</div><h2>WELCOME<br>BACK.</h2></div><button class="close" onclick="closeModals()">✕</button></div>
+<form class="form" onsubmit="login(event)"><label>MEMBER ID<input id="lId" required placeholder="e.g. SFK1001"></label><label>PHONE NUMBER<input id="lPhone" required inputmode="tel" placeholder="Phone used when registering"></label><div class="error" id="loginError">Member ID or phone number is incorrect.</div><button class="submit">LOG IN →</button></form><div class="switch">New customer? <button onclick="openRegister()">Create an account</button></div>
+</div></div>
+
+<div class="modal" id="editModal"><div class="modalbox"><div class="modalhead"><div><div class="tag">ACCOUNT SETTINGS</div><h2>EDIT<br>PROFILE.</h2></div><button class="close" onclick="closeModals()">✕</button></div>
+<form class="form" onsubmit="saveEdit(event)"><label>FULL NAME<input id="eName" required></label><label>PHONE NUMBER<input id="ePhone" required inputmode="tel"></label><label>EMAIL<input id="eEmail" type="email"></label><button class="submit">SAVE CHANGES →</button></form></div></div>
+
+<div class="toast" id="toast"></div>
+<script>
+const prices={Basic:999,Pro:1499,Elite:2499};
+const key='sakFitnessMembers';
+function getMembers(){try{return JSON.parse(localStorage.getItem(key)||'[]')}catch(e){return[]}}
+function saveMembers(a){localStorage.setItem(key,JSON.stringify(a))}
+function today(){const d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10)}
+function openModal(id){closeModals();document.getElementById(id).classList.add('show')}
+function closeModals(){document.querySelectorAll('.modal').forEach(x=>x.classList.remove('show'))}
+function openRegister(){openModal('registerModal');document.getElementById('rStart').value=today();updateTotal()}
+function openLogin(){openModal('loginModal');document.getElementById('loginError').style.display='none'}
+function initials(n){return n.trim().split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase()}
+function updateTotal(){const plan=document.getElementById('rPlan').value,m=+document.getElementById('rDuration').value||1,total=(prices[plan]||0)*m;document.getElementById('rTotal').textContent='₹'+total.toLocaleString('en-IN');const st=document.getElementById('rStart').value;if(st&&plan){let d=new Date(st+'T00:00:00');d.setMonth(d.getMonth()+m);d.setDate(d.getDate()-1);document.getElementById('dateInfo').textContent='Valid until '+d.toLocaleDateString()}else document.getElementById('dateInfo').textContent='Choose a plan.'}
+function register(e){e.preventDefault();const name=document.getElementById('rName').value.trim(),phone=document.getElementById('rPhone').value.trim(),email=document.getElementById('rEmail').value.trim(),plan=document.getElementById('rPlan').value,m=+document.getElementById('rDuration').value,st=document.getElementById('rStart').value;let a=getMembers(),id='SFK'+String(1001+a.length).padStart(4,'0');const start=new Date(st+'T00:00:00'),exp=new Date(start);exp.setMonth(exp.getMonth()+m);exp.setDate(exp.getDate()-1);const member={id,name,phone,email,plan,durationMonths:m,pricePerMonth:prices[plan],totalPaid:prices[plan]*m,status:'ACTIVE',registeredAt:new Date().toISOString(),startDate:start.toISOString(),expiry:exp.toISOString()};a.push(member);saveMembers(a);localStorage.setItem('sakLoggedInMember',id);closeModals();showAccount(member);toast('Account created • Member ID: '+id);e.target.reset();document.getElementById('rStart').value=today();updateTotal()}
+function login(e){e.preventDefault();const id=document.getElementById('lId').value.trim().toUpperCase(),phone=document.getElementById('lPhone').value.replace(/\D/g,'');const m=getMembers().find(x=>String(x.id).toUpperCase()===id&&String(x.phone).replace(/\D/g,'')===phone);if(!m){document.getElementById('loginError').style.display='block';return}localStorage.setItem('sakLoggedInMember',m.id);closeModals();showAccount(m);toast('Welcome back, '+m.name+'!')}
+function showAccount(m){document.getElementById('account').classList.add('show');document.getElementById('avatar').textContent=initials(m.name)||'SF';document.getElementById('accountName').textContent=m.name;document.getElementById('accountContact').innerHTML=escape(m.email||'No email added')+'<br>'+escape(m.phone);document.getElementById('aId').textContent=m.id;document.getElementById('aPlan').textContent=m.plan+' • '+m.durationMonths+' month(s)';document.getElementById('aStatus').textContent=m.status;document.getElementById('aStart').textContent=new Date(m.startDate).toLocaleDateString();document.getElementById('aExpiry').textContent=new Date(m.expiry).toLocaleDateString();document.getElementById('aPaid').textContent='₹'+Number(m.totalPaid||0).toLocaleString('en-IN');document.getElementById('aCreated').textContent=new Date(m.registeredAt).toLocaleDateString();document.getElementById('qrId').textContent=m.id;const q=document.getElementById('qrBox');q.innerHTML='';if(window.QRCode)new QRCode(q,{text:m.id,width:180,height:180,colorDark:'#090a0b',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.M});else q.textContent=m.id;document.getElementById('account').scrollIntoView({behavior:'smooth',block:'start'})}
+function openEdit(){const id=localStorage.getItem('sakLoggedInMember'),m=getMembers().find(x=>x.id===id);if(!m)return;document.getElementById('eName').value=m.name;document.getElementById('ePhone').value=m.phone;document.getElementById('eEmail').value=m.email||'';openModal('editModal')}
+function saveEdit(e){e.preventDefault();const id=localStorage.getItem('sakLoggedInMember'),a=getMembers(),i=a.findIndex(x=>x.id===id);if(i<0)return;a[i].name=document.getElementById('eName').value.trim();a[i].phone=document.getElementById('ePhone').value.trim();a[i].email=document.getElementById('eEmail').value.trim();saveMembers(a);closeModals();showAccount(a[i]);toast('Profile updated')}
+function logout(){localStorage.removeItem('sakLoggedInMember');document.getElementById('account').classList.remove('show');window.scrollTo({top:0,behavior:'smooth'});toast('Logged out')}
+function escape(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function toast(t){const x=document.getElementById('toast');x.textContent=t;x.style.display='block';clearTimeout(window.tt);window.tt=setTimeout(()=>x.style.display='none',2800)}
+document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModals()}));
+window.addEventListener('keydown',e=>{if(e.key==='Escape')closeModals()});
+(function restore(){const id=localStorage.getItem('sakLoggedInMember');if(id){const m=getMembers().find(x=>x.id===id);if(m)showAccount(m)}})();
+</script>
+</body>
+</html>
