@@ -1,15 +1,689 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sak Fitness</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080a0f">
+
+<title>Sak Fitness — QR Scanner</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 80% 0%, #a3ff1225, transparent 35%),
+        radial-gradient(circle at 0% 50%, #6df7c720, transparent 30%),
+        #080a0f;
+    color: #f7f8fb;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+nav {
+    border-bottom: 1px solid #29313d;
+    background: rgba(8,10,15,.9);
+    padding: 14px 20px;
+}
+
+.nav {
+    max-width: 1000px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.logoBox {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    background: #a3ff12;
+    color: #071000;
+    border-radius: 12px;
+    font-weight: 900;
+}
+
+.staff {
+    border: 1px solid #29313d;
+    border-radius: 20px;
+    padding: 8px 12px;
+    color: #a3ff12;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+main {
+    max-width: 1000px;
+    margin: auto;
+    padding: 35px 18px 60px;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.label {
+    color: #a3ff12;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+h1 {
+    font-size: clamp(40px, 8vw, 70px);
+    margin: 12px 0;
+    letter-spacing: -3px;
+}
+
+.hero p {
+    color: #9ba4b4;
+    max-width: 600px;
+    margin: auto;
+    line-height: 1.6;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.card {
+    background: #11151d;
+    border: 1px solid #29313d;
+    border-radius: 22px;
+    padding: 20px;
+}
+
+h2 {
+    margin-top: 7px;
+}
+
+.muted {
+    color: #9ba4b4;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.camera {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    background: #030507;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid #343c49;
+    display: grid;
+    place-items: center;
+}
+
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.scanBox {
+    position: absolute;
+    width: 65%;
+    aspect-ratio: 1;
+    border: 3px solid #a3ff12;
+    border-radius: 20px;
+    box-shadow: 0 0 0 999px rgba(0,0,0,.5);
+}
+
+.scanLine {
+    position: absolute;
+    width: 60%;
+    height: 2px;
+    background: #a3ff12;
+    box-shadow: 0 0 15px #a3ff12;
+    animation: scan 2s linear infinite;
+}
+
+@keyframes scan {
+    0% { transform: translateY(-120px); }
+    50% { transform: translateY(120px); }
+    100% { transform: translateY(-120px); }
+}
+
+.cameraMessage {
+    position: absolute;
+    background: rgba(0,0,0,.75);
+    padding: 10px 14px;
+    border-radius: 10px;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 13px;
+}
+
+button {
+    border: 0;
+    border-radius: 13px;
+    padding: 13px 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.primary {
+    background: #a3ff12;
+    color: #071000;
+    flex: 1;
+}
+
+.secondary {
+    background: #181e28;
+    color: white;
+    border: 1px solid #29313d;
+    flex: 1;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid #29313d;
+    background: #0b0f15;
+    color: white;
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.result {
+    margin-top: 18px;
+    display: none;
+}
+
+.result.show {
+    display: block;
+}
+
+.status {
+    padding: 14px;
+    border-radius: 13px;
+    font-weight: bold;
+    margin-bottom: 14px;
+}
+
+.active {
+    color: #a3ff12;
+    background: #a3ff1218;
+    border: 1px solid #a3ff1240;
+}
+
+.expired {
+    color: #ff7f96;
+    background: #ff557018;
+    border: 1px solid #ff557040;
+}
+
+.member {
+    background: #0c1016;
+    border: 1px solid #29313d;
+    border-radius: 14px;
+    padding: 15px;
+}
+
+.memberName {
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #29313d;
+    padding: 11px 0;
+}
+
+.info span {
+    color: #9ba4b4;
+}
+
+footer {
+    text-align: center;
+    color: #707988;
+    padding: 30px;
+    font-size: 12px;
+}
+
+@media(max-width:750px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    main {
+        padding: 25px 13px 50px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+}
+</style>
 </head>
+
 <body>
-  <h1>Sak Fitness Member Portal</h1>
-  <p>Loading...</p>
-  <script>
-    window.location.href = "Sak_Fitness_Member_Portal_FINAL.html";
-  </script>
+
+<nav>
+    <div class="nav">
+        <div class="logo">
+            <div class="logoBox">S</div>
+            Sak Fitness
+        </div>
+
+        <div class="staff">
+            STAFF QR SCANNER
+        </div>
+    </div>
+</nav>
+
+<main>
+
+<div class="hero">
+    <div class="label">STAFF PORTAL</div>
+
+    <h1>
+        SCAN.
+        <span style="color:#a3ff12">VERIFY.</span>
+    </h1>
+
+    <p>
+        Scan a Sak Fitness member's QR code and verify their
+        membership status instantly.
+    </p>
+</div>
+
+<div class="grid">
+
+<!-- CAMERA -->
+
+<div class="card">
+
+    <div class="label">QR CAMERA</div>
+
+    <h2>Scan Member QR</h2>
+
+    <p class="muted">
+        Allow camera access when Chrome asks.
+    </p>
+
+    <div class="camera">
+
+        <video id="video" playsinline></video>
+
+        <div class="scanBox"></div>
+
+        <div class="scanLine"></div>
+
+        <div id="message" class="cameraMessage">
+            Camera not started
+        </div>
+
+    </div>
+
+    <div class="buttons">
+
+        <button class="primary" onclick="startCamera()">
+            Start Camera
+        </button>
+
+        <button class="secondary" onclick="stopCamera()">
+            Stop
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- MANUAL -->
+
+<div class="card">
+
+    <div class="label">MANUAL CHECK</div>
+
+    <h2>Enter Member ID</h2>
+
+    <p class="muted">
+        If the camera isn't available, enter the member ID manually.
+    </p>
+
+    <input
+        id="memberID"
+        placeholder="SAK-123456"
+        autocomplete="off"
+    >
+
+    <button
+        class="primary"
+        style="width:100%"
+        onclick="verifyMember()"
+    >
+        Verify Member
+    </button>
+
+    <div id="result" class="result"></div>
+
+</div>
+
+</div>
+
+<div class="card" style="margin-top:18px">
+
+    <div class="label">STAFF FLOW</div>
+
+    <h2>How it works</h2>
+
+    <div class="info">
+        <span>1. Member registers</span>
+        <b>Account created</b>
+    </div>
+
+    <div class="info">
+        <span>2. Member receives QR</span>
+        <b>Digital pass</b>
+    </div>
+
+    <div class="info">
+        <span>3. Staff scans</span>
+        <b>Verify</b>
+    </div>
+
+    <div class="info">
+        <span>4. Membership checked</span>
+        <b>Active / Expired</b>
+    </div>
+
+</div>
+
+</main>
+
+<footer>
+    Sak Fitness • Staff QR Scanner • Demo
+</footer>
+
+
+<!-- QR SCANNER LIBRARY -->
+
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+
+<script>
+
+let stream = null;
+let scanning = false;
+
+function getMember() {
+
+    return JSON.parse(
+        localStorage.getItem("sakFitnessUser") || "null"
+    );
+
+}
+
+
+function verifyMember() {
+
+    const id =
+        document
+        .getElementById("memberID")
+        .value
+        .trim()
+        .toUpperCase();
+
+    if (!id) {
+
+        alert("Enter a Member ID");
+
+        return;
+
+    }
+
+    const member = getMember();
+
+    showMember(member, id);
+
+}
+
+
+function showMember(member, scannedID) {
+
+    const result =
+        document.getElementById("result");
+
+    result.className = "result show";
+
+    if (
+        !member ||
+        member.id.toUpperCase() !== scannedID.toUpperCase()
+    ) {
+
+        result.innerHTML = `
+            <div class="status expired">
+                ✕ MEMBER NOT FOUND
+            </div>
+
+            <p class="muted">
+                No matching demo member was found.
+            </p>
+        `;
+
+        return;
+
+    }
+
+
+    const expiry =
+        new Date(member.expiry + "T23:59:59");
+
+    const active =
+        expiry >= new Date();
+
+
+    result.innerHTML = `
+
+        <div class="status ${active ? "active" : "expired"}">
+
+            ${active
+                ? "✓ MEMBERSHIP ACTIVE"
+                : "✕ MEMBERSHIP EXPIRED"}
+
+        </div>
+
+        <div class="member">
+
+            <div class="memberName">
+                ${member.name}
+            </div>
+
+            <div class="info">
+                <span>Member ID</span>
+                <b>${member.id}</b>
+            </div>
+
+            <div class="info">
+                <span>Plan</span>
+                <b>${member.plan || "—"}</b>
+            </div>
+
+            <div class="info">
+                <span>Expires</span>
+                <b>${member.expiry || "—"}</b>
+            </div>
+
+            <div class="info">
+                <span>Phone</span>
+                <b>${member.phone || "—"}</b>
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+async function startCamera() {
+
+    if (!window.isSecureContext) {
+
+        document.getElementById("message").textContent =
+            "Camera requires HTTPS";
+
+        return;
+
+    }
+
+    try {
+
+        stream =
+            await navigator.mediaDevices.getUserMedia({
+
+                video: {
+                    facingMode: {
+                        ideal: "environment"
+                    }
+                },
+
+                audio: false
+
+            });
+
+        const video =
+            document.getElementById("video");
+
+        video.srcObject = stream;
+
+        await video.play();
+
+        scanning = true;
+
+        document.getElementById("message")
+            .style.display = "none";
+
+        scan();
+
+    } catch(error) {
+
+        document.getElementById("message").textContent =
+            "Camera permission denied";
+
+    }
+
+}
+
+
+function stopCamera() {
+
+    scanning = false;
+
+    if (stream) {
+
+        stream
+        .getTracks()
+        .forEach(track => track.stop());
+
+        stream = null;
+
+    }
+
+    document.getElementById("video").srcObject = null;
+
+    document.getElementById("message").style.display = "block";
+
+    document.getElementById("message").textContent =
+        "Camera stopped";
+
+}
+
+
+function scan() {
+
+    if (!scanning) return;
+
+    const video =
+        document.getElementById("video");
+
+    if (video.readyState >= 2) {
+
+        const canvas =
+            document.createElement("canvas");
+
+        canvas.width =
+            video.videoWidth;
+
+        canvas.height =
+            video.videoHeight;
+
+        const ctx =
+            canvas.getContext("2d");
+
+        ctx.drawImage(
+            video,
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+        const image =
+            ctx.getImageData(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+        if (window.jsQR) {
+
+            const code =
+                jsQR(
+                    image.data,
+                    image.width,
+                    image.height
+                );
+
+            if (code) {
+
+                document.getElementById("memberID")
+                    .value = code.data;
+
+                showMember(
+                    getMember(),
+                    code.data
+                );
+
+                if (navigator.vibrate)
+                    navigator.vibrate(120);
+
+            }
+
+        }
+
+    }
+
+    requestAnimationFrame(scan);
+
+}
+
+</script>
+
 </body>
 </html>
